@@ -19,7 +19,7 @@ const Trending: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     fetch()
-  }, [])
+  }, [fetch])
 
   return (
     <div className={cs(css.trending)}>
