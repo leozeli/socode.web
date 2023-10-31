@@ -9,6 +9,7 @@ RUN npm run build
 # Runtime stage
 FROM gcr.io/distroless/nodejs
 WORKDIR /app
+RUN npm install -g serve 
 COPY --from=builder /app/build ./build
 EXPOSE 3000
 CMD ["serve", "-s build"]
