@@ -11,7 +11,8 @@ import starsModel, { StarsModel } from "./stars"
 import searchKeysModel, { SearchKeysModel } from "./searchkeys"
 import trendingModel, { TrendingModel } from "./trending"
 import displayModel, { DisplayModel } from "./display"
-import hackerNewsModel, {HackerNewsModel} from "./hackernews"
+import hackerNewsModel, { HackerNewsModel } from "./hackernews"
+import v2exModel, { V2EXModel } from "./v2ex"
 
 export interface StoreModel {
   search: SearchModel
@@ -28,6 +29,7 @@ export interface StoreModel {
   trending: TrendingModel
   hackerNews: HackerNewsModel
   display: DisplayModel
+  v2ex: V2EXModel
 }
 
 const storeModel: StoreModel = {
@@ -43,8 +45,9 @@ const storeModel: StoreModel = {
   stars: starsModel,
   searchKeys: searchKeysModel,
   trending: trendingModel,
-  hackerNews : hackerNewsModel,
+  hackerNews: hackerNewsModel,
   display: displayModel,
+  v2ex: v2exModel,
 }
 
 export default storeModel

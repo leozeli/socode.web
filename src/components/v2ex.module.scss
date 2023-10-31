@@ -1,0 +1,108 @@
+@import "../styles/variable";
+
+div.trending {
+  position: absolute;
+  top: calc(124px + 112px); // Brand 112px
+  width: 100%;
+  right: 60rem;
+  & > div.container {
+    margin: 0 auto;
+    max-width: 768px;
+    font-family: $font-mono;
+  }
+}
+
+.header {
+  text-align: left;
+  .selname {
+    font-size: 0.75rem;
+  }
+  select {
+    font-family: $font-mono;
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+  :global(.select) {
+    &::after {
+      border-color: transparent !important;
+    }
+  }
+}
+
+
+
+ul.result {
+  li {
+    margin-top: 15px;
+    line-height: 1.4;
+  }
+  h4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    a {
+      text-shadow: 0 0 $dh-text;
+      transition: color 0.4s ease-in-out;
+      & > span {
+        text-shadow: 0 0 $grey2;
+        color: $grey2;
+      }
+    }
+    .stars {
+      font-family: $font-mono;
+      font-size: 0.8em;
+      background-color: #fff;
+      border: 1px solid #e5e8ed;
+      border-radius: 4px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+      padding: 2px 4px;
+      color: $grey-light;
+      .allstars {
+        // padding: 0px 2px;
+        // background-color: $dh-body;
+        // border-radius: 4px;
+        color: $grey;
+        margin-right: 4px;
+      }
+    }
+  }
+  .description {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  span.language {
+    color: $grey;
+    font-size: 0.8em;
+    margin-right: 6px;
+    text-shadow: 0 0 $dh-text;
+    span.languageColor {
+      position: relative;
+      top: 1px;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 4px;
+      box-shadow: $shadow2;
+    }
+  }
+}
+
+a.more {
+  display: inline-block;
+  margin: 15px 0 10px;
+}
+/* Define some variables for colors and fonts */
+$orange: #ff6600;
+$white: #ffffff;
+$black: #000000;
+$grey-light: #828282;
+$grey-dark: #333333;
+$font-mono: "Roboto Mono", monospace;
+
+/* Use box-sizing: border-box for all elements */
+* {
+  box-sizing: border-box;
+}
+

@@ -1,7 +1,5 @@
 import React, { useEffect } from "react"
 import cs from "classnames"
-import dayjs from "dayjs"
-import ReactHtmlParser from "react-html-parser"
 import { useStoreActions, useStoreState } from "../Store"
 import { StoryType } from "../models/hackernews"
 import { StringEnumObjects } from "../utils/assist"

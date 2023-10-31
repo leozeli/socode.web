@@ -58,6 +58,7 @@ import { Suggester, SuggestItem } from "../services/suggest.service"
 import css from "./search.module.scss"
 import Loader1 from "./loader/loader1"
 import NewHackerNews from "./hackernews"
+import V2EX from "./v2ex"
 
 const crossCtrl = getCrossCtrl()
 const GithubStars = lazy(() => import("./stars"))
@@ -1143,6 +1144,16 @@ const SearchInput: React.FC = (): JSX.Element => {
               currentKey.docsearch ||
               currentKey.code === "npms" ||
               currentKey.code === "devdocs") && <NewHackerNews />}
+        </div>
+        <div>
+          {displayTrending &&
+            !displayKeys &&
+            !loading &&
+            !currentKey.devdocs &&
+            (currentKey.template ||
+              currentKey.docsearch ||
+              currentKey.code === "npms" ||
+              currentKey.code === "devdocs") && <V2EX />}
         </div>
       </div>
     </div>
