@@ -1,10 +1,14 @@
-# specify the node base image with your desired version
-FROM node:14
-# copy project files and folders to the current working directory (i.e. /app folder)
-COPY . /app
-# install project dependencies
+# Build stage
+FROM node:14-alpine as builder
+WORKDIR /app
+COPY package*.json ./
 RUN npm install
-# replace this with your application's default port
-EXPOSE 3001
-# run the app script
-CMD ["npm", "start"]
+COPY . .
+RUN npm run build
+
+# Runtime stage
+FROM gcr.io/distroless/nodejs
+WORKDIR /app
+COPY --from=builder /app/build ./build
+EXPOSE 3000
+CMD ["serve", "-s build"]
