@@ -6,7 +6,7 @@
   "homepage": "https://socode.pro",
   "scripts": {
     "start": "craco start",
-    "build": "react-scripts build",
+    "build": "craco build",
     "build_china": "cross-env REACT_APP_ANALYTICS_ID=159039195-2 react-scripts build",
     "route": "sh copyitem.sh",
     "route_win": "@powershell -NoProfile -Command ./copyitem.ps1",
