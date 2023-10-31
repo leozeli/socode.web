@@ -1,10 +1,9 @@
 @import "../styles/variable";
 
 div.trending {
-  position: absolute;
+  position:fixed;
   top: calc(124px + 112px); // Brand 112px
-  width: 80%;
-  right: 70rem;
+  right: 70%;
   & > div.container {
     margin: 0 auto;
     max-width: 768px;

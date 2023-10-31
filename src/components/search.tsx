@@ -8,7 +8,13 @@ import autocomplete from "autocomplete.js"
 import cs from "classnames"
 // import Highlighter from "react-highlight-words"
 import { Markup } from "interweave"
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import Stack from "react-bootstrap/Stack"
+
 import {
   faSearch,
   faAngleDoubleLeft,
@@ -1122,40 +1128,30 @@ const SearchInput: React.FC = (): JSX.Element => {
 
         {!isInStandaloneMode && result === null && currentKey.name === "socode" && <Slogan />}
       </animated.div>
-      <div className="grid">
-        Place the Trending component in the left column
-        <div>
-          {displayTrending &&
-            !displayKeys &&
-            !loading &&
-            !currentKey.devdocs &&
-            (currentKey.template ||
-              currentKey.docsearch ||
-              currentKey.code === "npms" ||
-              currentKey.code === "devdocs") && <Trending />}
-        </div>
-        {/* Place the NewHackerNews component in the right column */}
-        <div>
-          {displayTrending &&
-            !displayKeys &&
-            !loading &&
-            !currentKey.devdocs &&
-            (currentKey.template ||
-              currentKey.docsearch ||
-              currentKey.code === "npms" ||
-              currentKey.code === "devdocs") && <NewHackerNews />}
-        </div>
-        <div>
-          {displayTrending &&
-            !displayKeys &&
-            !loading &&
-            !currentKey.devdocs &&
-            (currentKey.template ||
-              currentKey.docsearch ||
-              currentKey.code === "npms" ||
-              currentKey.code === "devdocs") && <V2EX />}
-        </div>
-      </div>
+      <Container>
+        {" "}
+        {displayTrending &&
+          !displayKeys &&
+          !loading &&
+          !currentKey.devdocs &&
+          (currentKey.template ||
+            currentKey.docsearch ||
+            currentKey.code === "npms" ||
+            currentKey.code === "devdocs") && (
+            <Row>
+              <Col xs={12} md={4}>
+                <Trending />{" "}
+              </Col>
+              <Col xs={12} md={4}>
+                <NewHackerNews />{" "}
+              </Col>
+              <Col xs={12} md={4}>
+                {" "}
+                <V2EX />
+              </Col>
+            </Row>
+          )}
+      </Container>
     </div>
   )
 }

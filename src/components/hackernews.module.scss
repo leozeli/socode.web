@@ -1,11 +1,9 @@
 @import "../styles/variable";
 
 div.trending {
-  position: absolute;
+  position: fixed;
   top: calc(124px + 112px); // Brand 112px
-  width: 100%;
-  right: 0rem;
-  margin: 0;
+  right: 10%;
   & > div.container {
     margin: 0 auto;
     max-width: 768px;
@@ -29,8 +27,6 @@ div.trending {
     }
   }
 }
-
-
 
 ul.result {
   li {
@@ -106,4 +102,3 @@ $font-mono: "Roboto Mono", monospace;
 * {
   box-sizing: border-box;
 }
-
