@@ -555,6 +555,37 @@ div.closer {
 :global(.algolia-autocomplete.algolia-autocomplete-right .ds-dropdown-menu:before) {
   left: 48px;
 }
+/* Use CSS grid to create a two-column layout */
+.grid {
+  display: grid;
+  grid-template-columns: 50% 50%; /* or use 1fr 1fr */
+}
+
+.left {
+  grid-column: 1 / 2;
+}
+
+.right {
+  grid-column: 2 / 3;
+}
+
+/* Use media queries to make the layout responsive */
+@media (max-width:600px) {
+  /* Make the columns stack on smaller screens */
+  .grid {
+    grid-template-columns: 100%;
+  }
+
+  .left {
+    grid-column: 1 / 2;
+    order: 1; /* Change the order of the components if needed */
+  }
+
+  .right {
+    grid-column: 1 / 2;
+    order: 2; /* Change the order of the components if needed */
+  }
+}
 
 // @media (prefers-color-scheme: dark) {
 //   .searchWapper {
