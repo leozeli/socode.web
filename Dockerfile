@@ -1,5 +1,5 @@
 # specify the node base image with your desired version
-FROM node:16
+FROM node:14
 # copy project files and folders to the current working directory (i.e. /app folder)
 COPY . /app
 # install project dependencies
