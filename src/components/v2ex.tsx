@@ -6,7 +6,7 @@ import Loader from "./loader/loader1"
 // Define a function component to display the V2EX component
 const V2EX: React.FC = (): JSX.Element => {
   // Use the model state and actions
-  const { loading, topics } = useStoreState((state) => state.v2ex)
+  const { loading, list } = useStoreState((state) => state.v2ex)
   const { fetch, onReadMore } = useStoreActions((actions) => actions.v2ex)
 
   // Fetch the data when the component mounts
@@ -28,13 +28,13 @@ const V2EX: React.FC = (): JSX.Element => {
 
         {!loading && (
           <ul className={css.result}>
-            {topics.map((topic) => (
+            {list.map((topic) => (
               <li key={topic.link} className="list-group-item">
                 <a href={topic.link} target="_blank" rel="noopener noreferrer">
                   {topic.title}
                 </a>
                 <p className={css.description}>
-                  By {topic.author} on {topic.date} | {topic.replyCount} replies
+             {topic.category} on {topic.date}
                 </p>
               </li>
             ))}

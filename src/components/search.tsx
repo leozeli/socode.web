@@ -1123,7 +1123,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         {!isInStandaloneMode && result === null && currentKey.name === "socode" && <Slogan />}
       </animated.div>
       <div className="grid">
-        {/* Place the Trending component in the left column */}
+        Place the Trending component in the left column
         <div>
           {displayTrending &&
             !displayKeys &&

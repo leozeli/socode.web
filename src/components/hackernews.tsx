@@ -9,7 +9,7 @@ import Loader from "./loader/loader1"
 const storyTypeOptions = StringEnumObjects(StoryType)
 
 const NewHackerNews: React.FC = (): JSX.Element => {
-  const { loading, stories, storyType } = useStoreState((state) => state.hackerNews)
+  const { loading, list, storyType } = useStoreState((state) => state.hackerNews)
   const { setStoryType, fetchStories, onReadMore } = useStoreActions((actions) => actions.hackerNews)
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const NewHackerNews: React.FC = (): JSX.Element => {
 
         {!loading && (
           <ul className={css.result}>
-            {stories.map((s, i) => (
+            {list.map((s, i) => (
               <div key={s.id}>
                 <li>
                   <h4>

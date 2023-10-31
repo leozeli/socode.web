@@ -5,7 +5,7 @@
   "private": true,
   "homepage": "https://socode.pro",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "craco start",
     "build": "react-scripts build",
     "build_china": "cross-env REACT_APP_ANALYTICS_ID=159039195-2 react-scripts build",
     "route": "sh copyitem.sh",
@@ -95,6 +95,7 @@
     "workbox-streams": "^6.5.4"
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@types/jest": "^28.1.6",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.6.5",

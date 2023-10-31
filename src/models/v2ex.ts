@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from "easy-peasy"
+import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy"
 import ky from "ky"
 import dayjs from "dayjs"
 import Parser from "rss-parser"
@@ -12,7 +12,7 @@ export interface Topic {
   link: string
   author: string
   date: string
-  replyCount: number
+  category: string
 }
 
 // Define the model for the V2EX component
@@ -27,6 +27,7 @@ export interface V2EXModel {
   expanded: boolean
   onReadMore: Action<V2EXModel>
   url: string
+  list: Computed<V2EXModel, Array<Topic>>
 }
 
 // Define the initial state of the model
@@ -39,6 +40,8 @@ const v2exModel: V2EXModel = {
       state.expanded = true
     }
   }),
+  list: computed((state) => (state.expanded ? state.topics : state.topics.slice(0, responsiveCount))),
+
   url: "https://v2ex.com",
   loading: false,
   setLoading: action((state, payload) => {
@@ -54,22 +57,23 @@ const v2exModel: V2EXModel = {
 
     try {
       // Create a new instance of rssParser
-      const parser = new Parser()
+      const parser = new Parser({
+        requestOptions: {},
+      })
 
       // Fetch and parse the RSS feed from V2EX
-      const feed = await parser.parseURL("https://www.v2ex.com/index.xml")
+      const response = await ky.get("https://api.allorigins.win/raw?url=https://v2hot.pipecraft.net/hot/rss50.xml")
+      const xml = await response.text()
 
+      const feed = await parser.parseString(xml)
       // Map each entry in the feed to a Topic object
       const topics = feed.items.map((item) => ({
-        title: item.title  || "",
-        link: item.link  || "",
+        title: item.title || "",
+        link: item.link || "",
         author: item.author,
         date: dayjs(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
-        replyCount: parseInt(item["slash:comments"], 10),
+        category: item.category || "",
       }))
-
-      // Sort the topics by reply count in descending order
-      topics.sort((a, b) => b.replyCount - a.replyCount)
 
       // Set the topics array with the sorted topics
       actions.setTopics(topics)
