@@ -22,6 +22,9 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
      # This step builds and pushes your image using your Dockerfile
+     
+    - uses: actions/checkout@v3
+    
     - name: Build and Push Image
       id: docker_build
       uses: docker/build-push-action@v5.0.0
