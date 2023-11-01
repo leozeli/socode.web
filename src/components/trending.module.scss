@@ -2,17 +2,17 @@
 
 div.trending {
   position: fixed;
+  float: left;
   top: calc(124px + 112px); // Brand 112px
-  right: 40%;
   & > div.container {
     margin: 0 auto;
-    max-width: 768px;
+    min-width: 486px;
     font-family: $font-mono;
   }
 }
 
 .header {
-  text-align: right;
+  text-align: center;
   .selname {
     font-size: 0.75rem;
   }
@@ -64,7 +64,7 @@ ul.result {
     }
   }
   .description {
-    white-space: nowrap;
+    // white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
   }

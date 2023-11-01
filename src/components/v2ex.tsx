@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import cs from "classnames"
+import Stack from "react-bootstrap/Stack"
 import { useStoreActions, useStoreState } from "../Store"
 import css from "./v2ex.module.scss"
 import Loader from "./loader/loader1"
@@ -15,17 +16,15 @@ const V2EX: React.FC = (): JSX.Element => {
   }, [fetch])
 
   return (
-    <div className={cs(css.trending)}>
-      <div className={css.container}>
+    <Stack gap={4}>
+      <div className="p-2">
         <div className={css.header}>
-          <div className="navbar">
-            <div className="navbar-brand">
-              <h1>V2EX</h1>
-            </div>
-          </div>
+          <h1>V2EX</h1>
         </div>
-        {loading && <Loader type={2} gray />}
+      </div>
 
+      <div className="p-2">{loading && <Loader type={2} gray />}</div>
+      <div className="p-2">
         {!loading && (
           <ul className={css.result}>
             {list.map((topic) => (
@@ -34,19 +33,21 @@ const V2EX: React.FC = (): JSX.Element => {
                   {topic.title}
                 </a>
                 <p className={css.description}>
-             {topic.category} on {topic.date}
+                  {topic.category} on {topic.date}
                 </p>
               </li>
             ))}
           </ul>
         )}
+      </div>
+      <div className="p-2">
         {!loading && (
           <a className={css.more} onClick={() => onReadMore()}>
             READ MORE...
           </a>
         )}
       </div>
-    </div>
+    </Stack>
   )
 }
 export default V2EX

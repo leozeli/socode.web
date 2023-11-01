@@ -2,11 +2,11 @@
 
 div.trending {
   position: fixed;
+  float: left;
   top: calc(124px + 112px); // Brand 112px
-  right: 10%;
   & > div.container {
     margin: 0 auto;
-    max-width: 768px;
+    min-width: 486px;
     font-family: $font-mono;
   }
 }
@@ -102,3 +102,5 @@ $font-mono: "Roboto Mono", monospace;
 * {
   box-sizing: border-box;
 }
+
+

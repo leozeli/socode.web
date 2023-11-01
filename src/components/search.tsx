@@ -13,7 +13,6 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Stack from "react-bootstrap/Stack"
 
 import {
   faSearch,
@@ -27,6 +26,7 @@ import {
 import { faAlgolia, faGithub } from "@fortawesome/free-brands-svg-icons"
 import { faListAlt, faThumbsUp } from "@fortawesome/free-regular-svg-icons"
 import Select, { OptionTypeBase, OptionsType } from "react-select"
+import Stack from "react-bootstrap/Stack"
 import Brand from "./brand"
 import CheatSheets from "./devhints"
 import CheatSheetsItem from "./devhintsItem"
@@ -546,476 +546,479 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   return (
-    <div className={cs("container", { [css.expendWidth]: expandWidthView })}>
-      {!expandView && <Brand />}
-      <animated.div className={cs(css.searchWapper, { [css.focus]: focus })} style={{ top: spring.wapperTop }}>
-        <div className={cs(css.searchInput)}>
-          <span className={css.sep}>$</span>
-          {!displayKeys && (
-            <span className={cs(css.prefix, { [css.displayKeys]: displayKeys })}>
-              <span className={css.name} onClick={() => setDisplayKeys(!displayKeys)}>
-                {currentKey.name}
-              </span>
-              {currentKey.template &&
-                (currentKey.devdocs !== undefined ||
-                  currentKey.docsearch !== undefined ||
-                  currentKey.awesome !== undefined ||
-                  currentKey.cheatsheets !== undefined) && (
+    <div>
+      <div className={cs("container", { [css.expendWidth]: expandWidthView })}>
+        {!expandView && <Brand />}
+        <animated.div className={cs(css.searchWapper, { [css.focus]: focus })} style={{ top: spring.wapperTop }}>
+          <div className={cs(css.searchInput)}>
+            <span className={css.sep}>$</span>
+            {!displayKeys && (
+              <span className={cs(css.prefix, { [css.displayKeys]: displayKeys })}>
+                <span className={css.name} onClick={() => setDisplayKeys(!displayKeys)}>
+                  {currentKey.name}
+                </span>
+                {currentKey.template &&
+                  (currentKey.devdocs !== undefined ||
+                    currentKey.docsearch !== undefined ||
+                    currentKey.awesome !== undefined ||
+                    currentKey.cheatsheets !== undefined) && (
+                    <span
+                      className={cs(css.model, {
+                        [css.active]: searchModel === SearchModel.Template,
+                      })}
+                      onClick={(e) => {
+                        setSearchModels({ code: currentKey.code, model: SearchModel.Template })
+                      }}>
+                      <FontAwesomeIcon icon={faSearch} className={css.searchModel} />
+                    </span>
+                  )}
+                {currentKey.devdocs && (
                   <span
                     className={cs(css.model, {
-                      [css.active]: searchModel === SearchModel.Template,
+                      [css.active]: searchModel === SearchModel.Devdocs,
                     })}
                     onClick={(e) => {
-                      setSearchModels({ code: currentKey.code, model: SearchModel.Template })
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Devdocs })
                     }}>
-                    <FontAwesomeIcon icon={faSearch} className={css.searchModel} />
+                    <FontAwesomeIcon icon={faListAlt} />
                   </span>
                 )}
-              {currentKey.devdocs && (
-                <span
-                  className={cs(css.model, {
-                    [css.active]: searchModel === SearchModel.Devdocs,
-                  })}
-                  onClick={(e) => {
-                    setSearchModels({ code: currentKey.code, model: SearchModel.Devdocs })
-                  }}>
-                  <FontAwesomeIcon icon={faListAlt} />
-                </span>
-              )}
-              {currentKey.docsearch && (
-                <span
-                  className={cs(css.model, {
-                    [css.active]: searchModel === SearchModel.Algolia,
-                  })}
-                  onClick={(e) => {
-                    setSearchModels({ code: currentKey.code, model: SearchModel.Algolia })
-                  }}>
-                  <FontAwesomeIcon icon={faAlgolia} />
-                </span>
-              )}
-              {currentKey.awesome && (
-                <span
-                  className={cs(css.model, {
-                    [css.active]: searchModel === SearchModel.Awesome,
-                  })}
-                  onClick={(e) => {
-                    setSearchModels({ code: currentKey.code, model: SearchModel.Awesome })
-                  }}>
-                  <FontAwesomeIcon icon={faCubes} />
-                </span>
-              )}
-              {currentKey.cheatsheets && (
-                <span
-                  className={cs(css.model, {
-                    [css.active]: searchModel === SearchModel.Cheatsheets,
-                  })}
-                  onClick={(e) => {
-                    setSearchModels({ code: currentKey.code, model: SearchModel.Cheatsheets })
-                  }}>
-                  <FontAwesomeIcon icon={faAlignCenter} />
-                </span>
-              )}
-            </span>
-          )}
+                {currentKey.docsearch && (
+                  <span
+                    className={cs(css.model, {
+                      [css.active]: searchModel === SearchModel.Algolia,
+                    })}
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Algolia })
+                    }}>
+                    <FontAwesomeIcon icon={faAlgolia} />
+                  </span>
+                )}
+                {currentKey.awesome && (
+                  <span
+                    className={cs(css.model, {
+                      [css.active]: searchModel === SearchModel.Awesome,
+                    })}
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Awesome })
+                    }}>
+                    <FontAwesomeIcon icon={faCubes} />
+                  </span>
+                )}
+                {currentKey.cheatsheets && (
+                  <span
+                    className={cs(css.model, {
+                      [css.active]: searchModel === SearchModel.Cheatsheets,
+                    })}
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Cheatsheets })
+                    }}>
+                    <FontAwesomeIcon icon={faAlignCenter} />
+                  </span>
+                )}
+              </span>
+            )}
 
-          {(displayKeys || searchModel !== SearchModel.Algolia) && (
-            <input
-              type="search"
-              className={cs(css.input, "main_input")}
-              spellCheck={false}
-              value={displayKeys ? kquery : squery}
-              autoFocus
-              // name="q"
-              onBlur={() => {
-                setTimeout(() => setFocus(false), 100) // fix autocomplateClick
-              }}
-              onFocus={() => {
-                setFocus(true)
-              }}
-              onChange={handleQueryChange}
-              placeholder={displayKeys ? "select resources..." : KeyPlaceholder(currentKey, searchModel)}
-              ref={inputEl} // https://stackoverflow.com/a/48656310/346701
-              onKeyPress={isFirefox ? handleQueryKeyPress : () => undefined}
-            />
-          )}
-
-          {searchModel === SearchModel.Algolia && docsearchHack && (
-            <div key={currentKey.code} className={cs(css.docsearch)}>
+            {(displayKeys || searchModel !== SearchModel.Algolia) && (
               <input
                 type="search"
-                placeholder="algolia document search..."
-                className={cs(css.input, { "dis-none": displayKeys })}
+                className={cs(css.input, "main_input")}
                 spellCheck={false}
+                value={displayKeys ? kquery : squery}
                 autoFocus
-                value={squery}
-                onChange={(e) => setSquery(e.target.value)}
-                id="docsearch_input"
+                // name="q"
+                onBlur={() => {
+                  setTimeout(() => setFocus(false), 100) // fix autocomplateClick
+                }}
+                onFocus={() => {
+                  setFocus(true)
+                }}
+                onChange={handleQueryChange}
+                placeholder={displayKeys ? "select resources..." : KeyPlaceholder(currentKey, searchModel)}
+                ref={inputEl} // https://stackoverflow.com/a/48656310/346701
+                onKeyPress={isFirefox ? handleQueryKeyPress : () => undefined}
               />
-            </div>
-          )}
+            )}
 
-          {crossCtrl && (
-            <div className={css.inphotkey}>
-              <span>{crossCtrl}</span>
-              <span className={css.keya}>K</span>
-            </div>
-          )}
+            {searchModel === SearchModel.Algolia && docsearchHack && (
+              <div key={currentKey.code} className={cs(css.docsearch)}>
+                <input
+                  type="search"
+                  placeholder="algolia document search..."
+                  className={cs(css.input, { "dis-none": displayKeys })}
+                  spellCheck={false}
+                  autoFocus
+                  value={squery}
+                  onChange={(e) => setSquery(e.target.value)}
+                  id="docsearch_input"
+                />
+              </div>
+            )}
 
-          {!displayKeys && currentKey.code === "devdocs" && (
-            <Select
-              placeholder="Select Categories"
-              isMulti
-              isClearable={false}
-              // menuIsOpen
-              className={css.devdocs_select}
-              options={addressBarKeysObj.map((k) => ({
-                value: k.code,
-                label: (
-                  <span className={css.selectItem} style={{ backgroundImage: `url(/keys/${k.icon})`, ...k.iconProps }}>
-                    {k.name} <i>{k.shortkeys}</i>
-                  </span>
-                ),
-              }))}
-              value={addressBarKeys?.map((k) => ({ value: k, label: k }))}
-              onChange={(value, { action, removedValue }: any) => {
-                if (action === "select-option" && value) {
-                  setSettings({
-                    settings: { addressBarKeys: (value as OptionsType<OptionTypeBase>).map((o) => o.value) },
-                  })
-                } else if (action === "remove-value" && removedValue) {
-                  setSettings({
-                    settings: { addressBarKeys: addressBarKeys?.filter((t) => t !== removedValue.value) },
-                  })
-                } else if (action === "clear") {
-                  setSettings({ settings: { addressBarKeys: [] } })
-                }
-              }}
-            />
-          )}
+            {crossCtrl && (
+              <div className={css.inphotkey}>
+                <span>{crossCtrl}</span>
+                <span className={css.keya}>K</span>
+              </div>
+            )}
 
-          {!displayKeys && searchModel === SearchModel.Algolia && (currentKey.docsearch || []).length > 1 && (
-            <div className="select is-rounded mgr10">
-              <select
-                value={docLanguage}
-                onChange={async (e) => {
-                  setDocsearchHack(false)
-                  setDocLanguage(e.target.value as Language)
-                  setTimeout(() => setDocsearchHack(true), 0)
-                }}>
-                {(currentKey.docsearch || []).map((d) => (
-                  <option key={d.lang} value={d.lang}>
-                    {Object.keys(Language).filter((e) => Language[e] === d.lang)}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+            {!displayKeys && currentKey.code === "devdocs" && (
+              <Select
+                placeholder="Select Categories"
+                isMulti
+                isClearable={false}
+                // menuIsOpen
+                className={css.devdocs_select}
+                options={addressBarKeysObj.map((k) => ({
+                  value: k.code,
+                  label: (
+                    <span
+                      className={css.selectItem}
+                      style={{ backgroundImage: `url(/keys/${k.icon})`, ...k.iconProps }}>
+                      {k.name} <i>{k.shortkeys}</i>
+                    </span>
+                  ),
+                }))}
+                value={addressBarKeys?.map((k) => ({ value: k, label: k }))}
+                onChange={(value, { action, removedValue }: any) => {
+                  if (action === "select-option" && value) {
+                    setSettings({
+                      settings: { addressBarKeys: (value as OptionsType<OptionTypeBase>).map((o) => o.value) },
+                    })
+                  } else if (action === "remove-value" && removedValue) {
+                    setSettings({
+                      settings: { addressBarKeys: addressBarKeys?.filter((t) => t !== removedValue.value) },
+                    })
+                  } else if (action === "clear") {
+                    setSettings({ settings: { addressBarKeys: [] } })
+                  }
+                }}
+              />
+            )}
 
-          {!displayKeys && currentKey.homelink && (
-            <a
-              href={currentKey.homelink}
-              onClick={(e) => e.stopPropagation()}
-              className={cs(css.kicon)}
-              aria-label="home"
-              target="_blank"
-              rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faHome} />
-            </a>
-          )}
+            {!displayKeys && searchModel === SearchModel.Algolia && (currentKey.docsearch || []).length > 1 && (
+              <div className="select is-rounded mgr10">
+                <select
+                  value={docLanguage}
+                  onChange={async (e) => {
+                    setDocsearchHack(false)
+                    setDocLanguage(e.target.value as Language)
+                    setTimeout(() => setDocsearchHack(true), 0)
+                  }}>
+                  {(currentKey.docsearch || []).map((d) => (
+                    <option key={d.lang} value={d.lang}>
+                      {Object.keys(Language).filter((e) => Language[e] === d.lang)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
-          {!displayKeys && result !== null && (
-            <div className="select is-rounded mgl10">
-              {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}
-              <select value={timeRange} onChange={(e) => setTimeRange(e.target.value as SearchTimeRange)}>
-                {timeRangeOptions.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+            {!displayKeys && currentKey.homelink && (
+              <a
+                href={currentKey.homelink}
+                onClick={(e) => e.stopPropagation()}
+                className={cs(css.kicon)}
+                aria-label="home"
+                target="_blank"
+                rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faHome} />
+              </a>
+            )}
 
-          {!displayKeys && currentKey.bylang && (
-            <div className="select is-rounded mgl10">
-              <select value={searchLanguage} onChange={(e) => setSearchLanguage(e.target.value as Language)}>
-                {languageOptions.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+            {!displayKeys && result !== null && (
+              <div className="select is-rounded mgl10">
+                {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}
+                <select value={timeRange} onChange={(e) => setTimeRange(e.target.value as SearchTimeRange)}>
+                  {timeRangeOptions.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
-          {!displayKeys && currentKey.bypglang && (
-            <div className="select is-rounded mgl10">
-              <select value={programLanguage} onChange={(e) => setProgramLanguage(parseInt(e.target.value, 10))}>
-                {programLanguageOptions.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+            {!displayKeys && currentKey.bylang && (
+              <div className="select is-rounded mgl10">
+                <select value={searchLanguage} onChange={(e) => setSearchLanguage(e.target.value as Language)}>
+                  {languageOptions.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
-          {/* {!displayKeys && !currentKey.docsearch && !currentKey.devdocs && (
+            {!displayKeys && currentKey.bypglang && (
+              <div className="select is-rounded mgl10">
+                <select value={programLanguage} onChange={(e) => setProgramLanguage(parseInt(e.target.value, 10))}>
+                  {programLanguageOptions.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* {!displayKeys && !currentKey.docsearch && !currentKey.devdocs && (
               <FontAwesomeIcon icon={faSearch} onClick={() => search()} className={cs(css.sicon)} />
             )} */}
-        </div>
+          </div>
 
-        {focus &&
-          !displayKeys &&
-          currentKey.isSuggestable &&
-          suggeste !== null &&
-          suggeste.words.length > 0 &&
-          suggeste.key === currentKey.code && (
-            <div
-              className={cs(css.suggeste, "dropdown is-active")}
-              style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
-              <div className="dropdown-menu">
-                <div className="dropdown-content">
-                  {suggeste &&
-                    suggeste.words.map((s, i) => {
-                      if (currentKey.code === "github") {
+          {focus &&
+            !displayKeys &&
+            currentKey.isSuggestable &&
+            suggeste !== null &&
+            suggeste.words.length > 0 &&
+            suggeste.key === currentKey.code && (
+              <div
+                className={cs(css.suggeste, "dropdown is-active")}
+                style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
+                <div className="dropdown-menu">
+                  <div className="dropdown-content">
+                    {suggeste &&
+                      suggeste.words.map((s, i) => {
+                        if (currentKey.code === "github") {
+                          return (
+                            <div
+                              key={`${s.owner}/${s.name}`}
+                              onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
+                              className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                              <a>{`${s.owner}/${s.name}`}</a>
+                              <span className={css.stars}>&#9733; {s.watchers}</span>
+                              <p>{s.description}</p>
+                            </div>
+                          )
+                        }
+                        if (currentKey.code === "npm") {
+                          return (
+                            <div
+                              key={s.name}
+                              onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
+                              className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                              <Markup content={s.highlight || ""} tagName="a" />
+                              <span className={css.publisher}>{s.publisher}</span>
+                              <span className={css.version}>{s.version}</span>
+                              <p>{s.description}</p>
+                            </div>
+                          )
+                        }
+                        if (currentKey.code === "bundlephobia") {
+                          return (
+                            <div
+                              key={s.name}
+                              onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
+                              className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                              <Markup content={s.highlight || ""} tagName="a" />
+                              <span className={css.publisher}>{s.publisher}</span>
+                              <span className={css.version}>{s.version}</span>
+                              <p>{s.description}</p>
+                            </div>
+                          )
+                        }
                         return (
-                          <div
-                            key={`${s.owner}/${s.name}`}
-                            onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
-                            className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                            <a>{`${s.owner}/${s.name}`}</a>
-                            <span className={css.stars}>&#9733; {s.watchers}</span>
-                            <p>{s.description}</p>
-                          </div>
-                        )
-                      }
-                      if (currentKey.code === "npm") {
-                        return (
-                          <div
+                          <a
                             key={s.name}
-                            onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
-                            className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                            <Markup content={s.highlight || ""} tagName="a" />
-                            <span className={css.publisher}>{s.publisher}</span>
-                            <span className={css.version}>{s.version}</span>
-                            <p>{s.description}</p>
-                          </div>
+                            onClick={() => suggesteClick(s.name)}
+                            className={cs("dropdown-item", { "is-active": suggesteIndex === i })}>
+                            {s.name}
+                          </a>
                         )
-                      }
-                      if (currentKey.code === "bundlephobia") {
-                        return (
-                          <div
-                            key={s.name}
-                            onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
-                            className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                            <Markup content={s.highlight || ""} tagName="a" />
-                            <span className={css.publisher}>{s.publisher}</span>
-                            <span className={css.version}>{s.version}</span>
-                            <p>{s.description}</p>
-                          </div>
-                        )
-                      }
-                      return (
+                      })}
+                    {currentKey.code === "github" && (
+                      <>
+                        <hr className="dropdown-divider" />
                         <a
-                          key={s.name}
-                          onClick={() => suggesteClick(s.name)}
-                          className={cs("dropdown-item", { "is-active": suggesteIndex === i })}>
-                          {s.name}
+                          href="https://github.algolia.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cs(css.algolia)}>
+                          <FontAwesomeIcon icon={faAlgolia} />
+                          powered by algolia for github
                         </a>
-                      )
-                    })}
-                  {currentKey.code === "github" && (
-                    <>
-                      <hr className="dropdown-divider" />
-                      <a
-                        href="https://github.algolia.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cs(css.algolia)}>
-                        <FontAwesomeIcon icon={faAlgolia} />
-                        powered by algolia for github
-                      </a>
-                    </>
-                  )}
-                  {currentKey.code === "npm" && (
-                    <>
-                      <hr className="dropdown-divider" />
-                      <a href="https://npms.io/" target="_blank" rel="noopener noreferrer" className={cs(css.npms)}>
-                        powered by npms.io
-                      </a>
-                    </>
-                  )}
-                  {currentKey.code === "bundlephobia" && (
-                    <>
-                      <hr className="dropdown-divider" />
-                      <a
-                        href="https://bundlephobia.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cs(css.bundlephobia)}>
-                        powered by bundlephobia.com
-                      </a>
-                    </>
-                  )}
+                      </>
+                    )}
+                    {currentKey.code === "npm" && (
+                      <>
+                        <hr className="dropdown-divider" />
+                        <a href="https://npms.io/" target="_blank" rel="noopener noreferrer" className={cs(css.npms)}>
+                          powered by npms.io
+                        </a>
+                      </>
+                    )}
+                    {currentKey.code === "bundlephobia" && (
+                      <>
+                        <hr className="dropdown-divider" />
+                        <a
+                          href="https://bundlephobia.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cs(css.bundlephobia)}>
+                          powered by bundlephobia.com
+                        </a>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
+            )}
+
+          {displayKeys && (
+            <div className="mgl10 mgb10 mgr10">
+              {kquery && <div className={cs(css.searchedKeys)}>{keysDom(searchedKeys)}</div>}
+              {!kquery && (
+                <div className={css.tabs}>
+                  <a className={cs({ [css.current]: tabIndex === 0 })} onClick={() => switchTab(0)}>
+                    {pinnedIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Search })}
+                    onClick={() => switchTab(SKeyCategory.Search)}>
+                    {searchIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Tools })}
+                    onClick={() => switchTab(SKeyCategory.Tools)}>
+                    {toolsIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Information })}
+                    onClick={() => switchTab(SKeyCategory.Information)}>
+                    {informationIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Document })}
+                    onClick={() => switchTab(SKeyCategory.Document)}>
+                    {documentIntl}
+                  </a>
+                </div>
+              )}
+
+              {!kquery && (
+                <>
+                  {pinedKeys.length > 0 && (
+                    <div ref={pinnedTabEl} className={cs(css.skgroup, css.pinnned)}>
+                      {keysDom(pinedKeys)}
+                    </div>
+                  )}
+                  <div ref={searchTabEl} className={cs(css.skgroup)}>
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Search))}
+                    <div key="submit_res" className={cs(css.skeybox, css.operation)}>
+                      <div className={css.skey}>
+                        <a
+                          className={cs(css.skname, css.submit_res)}
+                          href={
+                            language === InterfaceLanguage.中文
+                              ? "https://jinshuju.net/f/n63rZZ"
+                              : "https://forms.gle/G3UwA1CgThaSBv437"
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          {language === InterfaceLanguage.中文 ? "提交您喜欢的资源" : "Submit your favorite resources"}
+                        </a>
+                      </div>
+                    </div>
+                    <div className={css.kdesc}>{searchIntl}</div>
+                  </div>
+                  <div ref={toolsTabEl} className={cs(css.skgroup)}>
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Tools))}
+                    <div key="newtab" className={cs(css.skeybox, css.operation)}>
+                      <div className={css.skey}>
+                        <a
+                          className={cs(css.skname, css.newtab, {
+                            [css.edge]: isEdgeChromium && insideFirewall,
+                            [css.firefox]: isFirefox,
+                          })}
+                          href={
+                            isFirefox
+                              ? "https://addons.mozilla.org/zh-CN/firefox/addon/new-tab-by-socode-pro/"
+                              : "https://chrome.google.com/webstore/detail/awesome-programming-in-th/midlnalokbplpicoooemgpodiphdmllc"
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          {language === InterfaceLanguage.中文 ? "替换浏览器NewTab" : "Replace Browser's NewTab"}
+                        </a>
+                      </div>
+                    </div>
+                    <div className={css.kdesc}>{toolsIntl}</div>
+                  </div>
+                  <div ref={informationTabEl} className={cs(css.skgroup)}>
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Information))}
+                    <div className={css.kdesc}>{informationIntl}</div>
+                  </div>
+                  <div ref={documentTabEl} className={cs(css.skgroup)}>
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Document))}
+                    <div key="address" className={cs(css.skeybox, css.operation)}>
+                      <div className={css.skey}>
+                        <a
+                          className={cs(css.skname, css.chrome, {
+                            [css.edge]: isEdgeChromium && insideFirewall,
+                            [css.firefox]: isFirefox,
+                          })}
+                          href="/extension">
+                          {language === InterfaceLanguage.中文
+                            ? "在浏览器地址栏搜索文档"
+                            : "Search Documents in AddressBar"}
+                        </a>
+                      </div>
+                    </div>
+                    <div className={css.kdesc}>{documentIntl}</div>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
-        {displayKeys && (
-          <div className="mgl10 mgb10 mgr10">
-            {kquery && <div className={cs(css.searchedKeys)}>{keysDom(searchedKeys)}</div>}
-            {!kquery && (
-              <div className={css.tabs}>
-                <a className={cs({ [css.current]: tabIndex === 0 })} onClick={() => switchTab(0)}>
-                  {pinnedIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.Search })}
-                  onClick={() => switchTab(SKeyCategory.Search)}>
-                  {searchIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.Tools })}
-                  onClick={() => switchTab(SKeyCategory.Tools)}>
-                  {toolsIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.Information })}
-                  onClick={() => switchTab(SKeyCategory.Information)}>
-                  {informationIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.Document })}
-                  onClick={() => switchTab(SKeyCategory.Document)}>
-                  {documentIntl}
-                </a>
-              </div>
-            )}
-
-            {!kquery && (
-              <>
-                {pinedKeys.length > 0 && (
-                  <div ref={pinnedTabEl} className={cs(css.skgroup, css.pinnned)}>
-                    {keysDom(pinedKeys)}
-                  </div>
-                )}
-                <div ref={searchTabEl} className={cs(css.skgroup)}>
-                  {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Search))}
-                  <div key="submit_res" className={cs(css.skeybox, css.operation)}>
-                    <div className={css.skey}>
-                      <a
-                        className={cs(css.skname, css.submit_res)}
-                        href={
-                          language === InterfaceLanguage.中文
-                            ? "https://jinshuju.net/f/n63rZZ"
-                            : "https://forms.gle/G3UwA1CgThaSBv437"
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {language === InterfaceLanguage.中文 ? "提交您喜欢的资源" : "Submit your favorite resources"}
-                      </a>
-                    </div>
-                  </div>
-                  <div className={css.kdesc}>{searchIntl}</div>
-                </div>
-                <div ref={toolsTabEl} className={cs(css.skgroup)}>
-                  {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Tools))}
-                  <div key="newtab" className={cs(css.skeybox, css.operation)}>
-                    <div className={css.skey}>
-                      <a
-                        className={cs(css.skname, css.newtab, {
-                          [css.edge]: isEdgeChromium && insideFirewall,
-                          [css.firefox]: isFirefox,
-                        })}
-                        href={
-                          isFirefox
-                            ? "https://addons.mozilla.org/zh-CN/firefox/addon/new-tab-by-socode-pro/"
-                            : "https://chrome.google.com/webstore/detail/awesome-programming-in-th/midlnalokbplpicoooemgpodiphdmllc"
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {language === InterfaceLanguage.中文 ? "替换浏览器NewTab" : "Replace Browser's NewTab"}
-                      </a>
-                    </div>
-                  </div>
-                  <div className={css.kdesc}>{toolsIntl}</div>
-                </div>
-                <div ref={informationTabEl} className={cs(css.skgroup)}>
-                  {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Information))}
-                  <div className={css.kdesc}>{informationIntl}</div>
-                </div>
-                <div ref={documentTabEl} className={cs(css.skgroup)}>
-                  {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Document))}
-                  <div key="address" className={cs(css.skeybox, css.operation)}>
-                    <div className={css.skey}>
-                      <a
-                        className={cs(css.skname, css.chrome, {
-                          [css.edge]: isEdgeChromium && insideFirewall,
-                          [css.firefox]: isFirefox,
-                        })}
-                        href="/extension">
-                        {language === InterfaceLanguage.中文
-                          ? "在浏览器地址栏搜索文档"
-                          : "Search Documents in AddressBar"}
-                      </a>
-                    </div>
-                  </div>
-                  <div className={css.kdesc}>{documentIntl}</div>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-
-        {!displayKeys && (
-          <>
-            {currentKey.code === "cheatsheets" && <CheatSheets query={squery} />}
-            {searchModel === SearchModel.Cheatsheets && <CheatSheetsItem />}
-            {currentKey.code === "rework" && <Rework />}
-            {currentKey.code === "tools" && <Tools query={squery} />}
-            {currentKey.code === "github_stars" && (
-              <Suspense fallback={<Loader1 type={2} />}>
-                <GithubStars query={squery} />
-              </Suspense>
-            )}
-            {currentKey.devdocs && searchModel === SearchModel.Devdocs && <Devdocs />}
-            {currentKey.code === "devdocs" && <DevdocsUnited />}
-            {searchModel === SearchModel.Awesome && currentKey.awesome && (
-              <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
-            )}
-            {currentKey.readmes && (
-              <Readme
-                base={currentKey.readmes.base}
-                paths={currentKey.readmes.paths}
-                query={currentKey.readmes.searched ? squery : ""}
-              />
-            )}
-            {currentKey.code === "encode" && (
-              <Suspense fallback={<Loader1 type={2} />}>
-                <Encode />
-              </Suspense>
-            )}
-            {/* {currentKey.code === "code_editor" && (
+          {!displayKeys && (
+            <>
+              {currentKey.code === "cheatsheets" && <CheatSheets query={squery} />}
+              {searchModel === SearchModel.Cheatsheets && <CheatSheetsItem />}
+              {currentKey.code === "rework" && <Rework />}
+              {currentKey.code === "tools" && <Tools query={squery} />}
+              {currentKey.code === "github_stars" && (
+                <Suspense fallback={<Loader1 type={2} />}>
+                  <GithubStars query={squery} />
+                </Suspense>
+              )}
+              {currentKey.devdocs && searchModel === SearchModel.Devdocs && <Devdocs />}
+              {currentKey.code === "devdocs" && <DevdocsUnited />}
+              {searchModel === SearchModel.Awesome && currentKey.awesome && (
+                <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
+              )}
+              {currentKey.readmes && (
+                <Readme
+                  base={currentKey.readmes.base}
+                  paths={currentKey.readmes.paths}
+                  query={currentKey.readmes.searched ? squery : ""}
+                />
+              )}
+              {currentKey.code === "encode" && (
+                <Suspense fallback={<Loader1 type={2} />}>
+                  <Encode />
+                </Suspense>
+              )}
+              {/* {currentKey.code === "code_editor" && (
               <Suspense fallback={<Loader1 type={2} />}>
                 <CodeEditor />
               </Suspense>
             )} */}
-            {currentKey.code === "markdown_editor" && (
-              <Suspense fallback={<Loader1 type={2} />}>
-                <MarkdownEditor />
-              </Suspense>
-            )}
-            {currentKey.code === "password" && <Password />}
-            {currentKey.code === "qrcode" && (
-              <div className="tac">
-                <canvas id="qrcode" />
-              </div>
-            )}
-            {currentKey.code === "url" && <Short />}
+              {currentKey.code === "markdown_editor" && (
+                <Suspense fallback={<Loader1 type={2} />}>
+                  <MarkdownEditor />
+                </Suspense>
+              )}
+              {currentKey.code === "password" && <Password />}
+              {currentKey.code === "qrcode" && (
+                <div className="tac">
+                  <canvas id="qrcode" />
+                </div>
+              )}
+              {currentKey.code === "url" && <Short />}
 
-            {/* {result !== null && (
+              {/* {result !== null && (
               <div className={css.searchResult}>
                 {result.results.map((r) => (
                   <div key={r.url} className={css.result}>
@@ -1062,96 +1065,98 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )} */}
 
-            {npmResult !== null && (
-              <div className={css.searchResult}>
-                {npmResult.results.map((r) => (
-                  <div key={r.package.links.npm} className={css.result}>
-                    <h4 className={css.header}>
-                      <a href={r.package.links.npm} target="_blank" rel="noopener noreferrer">
-                        {r.package.name}
-                      </a>
-                    </h4>
-                    <p className={css.content}>{r.package.description}</p>
-                    <p className={css.infos}>
-                      <a
-                        href={r.package.links.repository}
-                        className={css.github}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        <FontAwesomeIcon icon={faGithub} />
-                      </a>
-                      <span className="mgr10">{r.package.version}</span>
-                      <span className="mgr10">{r.package.publisher?.username}</span>
-                      <span>{dayjs(r.package.date).format("YYYY-M-D")}</span>
-                    </p>
+              {npmResult !== null && (
+                <div className={css.searchResult}>
+                  {npmResult.results.map((r) => (
+                    <div key={r.package.links.npm} className={css.result}>
+                      <h4 className={css.header}>
+                        <a href={r.package.links.npm} target="_blank" rel="noopener noreferrer">
+                          {r.package.name}
+                        </a>
+                      </h4>
+                      <p className={css.content}>{r.package.description}</p>
+                      <p className={css.infos}>
+                        <a
+                          href={r.package.links.repository}
+                          className={css.github}
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          <FontAwesomeIcon icon={faGithub} />
+                        </a>
+                        <span className="mgr10">{r.package.version}</span>
+                        <span className="mgr10">{r.package.publisher?.username}</span>
+                        <span>{dayjs(r.package.date).format("YYYY-M-D")}</span>
+                      </p>
+                    </div>
+                  ))}
+
+                  <div className={cs(css.pagination, "field has-addons")}>
+                    {pageno !== 1 && (
+                      <p className="control">
+                        <button type="button" className="button is-rounded" onClick={() => prevPage()}>
+                          <span className="icon">
+                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                          </span>
+                          <span>Previous Page</span>
+                        </button>
+                      </p>
+                    )}
+                    {npmResult.total > pageno * 10 && (
+                      <p className="control">
+                        <button type="button" className="button is-rounded" onClick={() => nextPage()}>
+                          <span>Next Page</span>
+                          <span className="icon">
+                            <FontAwesomeIcon icon={faAngleDoubleRight} />
+                          </span>
+                        </button>
+                      </p>
+                    )}
                   </div>
-                ))}
 
-                <div className={cs(css.pagination, "field has-addons")}>
-                  {pageno !== 1 && (
-                    <p className="control">
-                      <button type="button" className="button is-rounded" onClick={() => prevPage()}>
-                        <span className="icon">
-                          <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                        </span>
-                        <span>Previous Page</span>
-                      </button>
-                    </p>
-                  )}
-                  {npmResult.total > pageno * 10 && (
-                    <p className="control">
-                      <button type="button" className="button is-rounded" onClick={() => nextPage()}>
-                        <span>Next Page</span>
-                        <span className="icon">
-                          <FontAwesomeIcon icon={faAngleDoubleRight} />
-                        </span>
-                      </button>
-                    </p>
-                  )}
+                  {npmResult.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
                 </div>
+              )}
 
-                {npmResult.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
-              </div>
-            )}
-
-            {(result !== null || npmResult !== null) && (
-              <div className={css.closer} onClick={clearResultAll}>
-                <a className="delete is-medium" />
-              </div>
-            )}
-          </>
-        )}
-
-        {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
-
-        {loading && <Loader1 type={2} />}
-
-        {!isInStandaloneMode && result === null && currentKey.name === "socode" && <Slogan />}
-      </animated.div>
-      <Container>
-        {" "}
-        {displayTrending &&
-          !displayKeys &&
-          !loading &&
-          !currentKey.devdocs &&
-          (currentKey.template ||
-            currentKey.docsearch ||
-            currentKey.code === "npms" ||
-            currentKey.code === "devdocs") && (
-            <Row>
-              <Col xs={12} md={4}>
-                <Trending />{" "}
-              </Col>
-              <Col xs={12} md={4}>
-                <NewHackerNews />{" "}
-              </Col>
-              <Col xs={12} md={4}>
-                {" "}
-                <V2EX />
-              </Col>
-            </Row>
+              {(result !== null || npmResult !== null) && (
+                <div className={css.closer} onClick={clearResultAll}>
+                  <a className="delete is-medium" />
+                </div>
+              )}
+            </>
           )}
-      </Container>
+
+          {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
+
+          {loading && <Loader1 type={2} />}
+
+          {!isInStandaloneMode && result === null && currentKey.name === "socode" && <Slogan />}
+        </animated.div>{" "}
+      </div>
+      {displayTrending &&
+        !displayKeys &&
+        !loading &&
+        !currentKey.devdocs &&
+        (currentKey.template ||
+          currentKey.docsearch ||
+          currentKey.code === "npms" ||
+          currentKey.code === "devdocs") && (
+          <Container fluid style={{ margin: "100px auto" }}>
+            <Stack
+              direction="horizontal"
+              gap={3}
+              style={{ display: "flex", justifyContent: "center", minWidth: "max-content" }}>
+              <div className="p-2" style={{ margin: "auto 10px" }}>
+                <NewHackerNews />
+              </div>
+              <div className="p-2" style={{ margin: "auto 10px" }}>
+                <Trending />
+              </div>
+              <div className="p-2" style={{ margin: "auto 10px" }}>
+                <V2EX />
+              </div>
+            </Stack>
+          </Container>
+        )}
     </div>
   )
 }

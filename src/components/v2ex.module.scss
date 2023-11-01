@@ -1,12 +1,13 @@
 @import "../styles/variable";
 
 div.trending {
-  position:fixed;
+  position: fixed;
+  float: left;
+  width: fit-content;
   top: calc(124px + 112px); // Brand 112px
-  right: 70%;
   & > div.container {
     margin: 0 auto;
-    max-width: 768px;
+    min-width: 486px;
     font-family: $font-mono;
   }
 }

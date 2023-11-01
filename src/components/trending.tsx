@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import cs from "classnames"
+import Stack from "react-bootstrap/Stack"
 import { useStoreActions, useStoreState } from "../Store"
 import { TrendingSince } from "../models/trending"
 import { IntEnumObjects, StringEnumObjects } from "../utils/assist"
@@ -22,8 +23,8 @@ const Trending: React.FC = (): JSX.Element => {
   }, [fetch])
 
   return (
-    <div className={cs(css.trending)}>
-      <div className={cs(css.container)}>
+    <Stack gap={4}>
+      <div className="p-2">
         <div className={css.header}>
           <div className="select is-small">
             <select value={spoken} onChange={(e) => setSpoken(e.target.value as TrendingSpokenLanguage)}>
@@ -53,9 +54,9 @@ const Trending: React.FC = (): JSX.Element => {
             </select>
           </div>
         </div>
-
-        {loading && <Loader type={2} gray />}
-
+      </div>
+      <div className="p-2">{loading && <Loader type={2} gray />}</div>
+      <div className="p-2">
         {!loading && (
           <ul className={css.result}>
             {list.map((r) => (
@@ -85,14 +86,15 @@ const Trending: React.FC = (): JSX.Element => {
             ))}
           </ul>
         )}
-
+      </div>
+      <div className="p-2">
         {!loading && (
           <a className={css.more} onClick={() => onReadMore()}>
             READ MORE...
           </a>
         )}
       </div>
-    </div>
+    </Stack>
   )
 }
 

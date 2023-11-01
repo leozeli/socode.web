@@ -1,5 +1,7 @@
 import React, { useEffect } from "react"
 import cs from "classnames"
+import Col from "react-bootstrap/Col"
+import Stack from "react-bootstrap/Stack"
 import { useStoreActions, useStoreState } from "../Store"
 import { StoryType } from "../models/hackernews"
 import { StringEnumObjects } from "../utils/assist"
@@ -19,18 +21,14 @@ const NewHackerNews: React.FC = (): JSX.Element => {
   // Convert the HTML string to React elements using react-html-parser
 
   return (
-    <div className={cs(css.trending)}>
-      <div className={css.container}>
+    <Stack gap={4} >
+      <div className="p-2">
         <div className={css.header}>
-          <div className="navbar">
-            <div className="navbar-brand">
-              <h1>HackerNews</h1>
-            </div>
-          </div>
+          <h1>HackerNews</h1>
         </div>
-        {loading && <Loader type={2} gray />}
-        {/* Loop through the stories array and render each story as a div */}
-
+      </div>
+      <div className="p-2">{loading && <Loader type={2} gray />}</div>
+      <div className="p-2">
         {!loading && (
           <ul className={css.result}>
             {list.map((s, i) => (
@@ -57,13 +55,15 @@ const NewHackerNews: React.FC = (): JSX.Element => {
             ))}
           </ul>
         )}
+      </div>
+      <div className="p-2">
         {!loading && (
           <a className={css.more} onClick={() => onReadMore()}>
             READ MORE...
           </a>
         )}
       </div>
-    </div>
+    </Stack>
   )
 }
 
