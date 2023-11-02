@@ -1144,7 +1144,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             <Stack
               direction="horizontal"
               gap={3}
-              style={{ display: "flex", justifyContent: "center", minWidth: "max-content" }}>
+              style={{ display: "flex", justifyContent: "center"}}>
               <div className="p-2" style={{ margin: "auto 10px" }}>
                 <NewHackerNews />
               </div>
