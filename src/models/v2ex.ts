@@ -62,7 +62,7 @@ const v2exModel: V2EXModel = {
       })
 
       // Fetch and parse the RSS feed from V2EX
-      const response = await ky.get("https://api.allorigins.win/raw?url=https://v2hot.pipecraft.net/hot/rss50.xml")
+      const response = await ky.get("https://api.allorigins.win/raw?url=https://v2exhot.web.app/hot/rss50.xml")
       const xml = await response.text()
 
       const feed = await parser.parseString(xml)
